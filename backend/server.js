@@ -1,39 +1,38 @@
-import express from "express";
-import cookieParser from "cookie-parser";
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 // import cors from "cors";
-import connectDB from "./config/db.js";
-import productRoutes from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import dotenv from "dotenv";
+import connectDB from './config/db.js';
+import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import dotenv from 'dotenv';
 dotenv.config();
 
-
-
-const port = process.env.PORT || 5000; 
+const port = process.env.PORT || 5000;
 
 connectDB();
 
 const app = express();
+app.use(cors());
 
 //Body Parser Middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 //Cookir Parser Middleware
 app.use(cookieParser());
 
 // app.use(cors())
 app.get('/', (req, res) => {
-    res.send("Hello World");
-})
+  res.send('Hello World');
+});
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
 
 // import path from 'path';
 // import express from 'express';
